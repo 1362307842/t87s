@@ -50,6 +50,7 @@ public class UserServlet extends AbstractServlet {
 	public String getUser(HttpServletRequest request, HttpServletResponse response) {
 		SqlSession session=null;
 		try {
+			System.out.println("ÐÞ¸Ä");
 			List<User> list=new ArrayList<User>();
 			session=MyBatisUtil.createSqlSession();
 			list=session.getMapper(UserMapper.class).getUser();
