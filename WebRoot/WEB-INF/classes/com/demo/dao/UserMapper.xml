@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.demo.dao.UserMapper">
+	<resultMap type="User" id="userResult">
+		<id property="id" column="id"/>
+		<result property="userCode" column="userCode"/>
+		<result property="userName" column="userName"/>
+		<result property="userPassword" column="userPassword"/>
+		<result property="gender" column="gender"/>
+		<result property="birthday" column="birthday"/>
+		<result property="phone" column="phone"/>
+		<result property="address" column="address"/>
+		<result property="userType" column="userType"/>
+		<result property="createdBy" column="createdBy"/>
+		<result property="creationDate" column="creationDate"/>
+		<result property="modifyBy" column="modifyBy"/>
+		<result property="modifyDate" column="modifyDate"/>
+		<result property="userRole" column="userRole"/>
+		<association property="role" javaType="Role" resultMap="roleResult"></association>
+	</resultMap>
+	
+	<resultMap type="Role" id="roleResult">
+		<id property="id" column="id"/>
+		<result property="roleCode" column="roleCode"/>
+		<result property="roleName" column="roleName"/>
+		<result property="createdBy" column="createdBy"/>
+		<result property="creationDate" column="creationDate"/>
+		<result property="modifyBy" column="modifyBy"/>
+		<result property="modifyDate" column="modifyDate"/>
+	</resultMap>
+	<!-- 查看用户信息 -->
+	<select id="getUser" resultMap="userResult">
+		select * from smbms_user
+	</select>
+	<!-- 根据id查看用户信息 -->
+	<select id="getUserById" resultMap="userResult">
+		select * from smbms_user where id=#{id}
+	</select>
+	<!-- 修改用户信息 -->
+	<update id="updateUser" parameterType="User">
+		update smbms_user
+		<set>
+			<if test="userCode != null">userCode=#{userCode},</if>
+			<if test="userName != null">userName=#{userName},</if>
+			<if test="userPassword != null">userPassword=#{userPassword},</if>
+			<if test="gender != null">gender=#{gender},</if>
+			<if test="birthday != null">birthday=#{birthday},</if>
+			<if test="phone != null">phone=#{phone},</if>
+			<if test="address != null">address=#{address},</if>
+			<if test="userType != null">userType=#{userType},</if>
+			<if test="createdBy != null">createdBy=#{createdBy},</if>
+			<if test="creationDate != null">creationDate=#{creationDate},</if>
+			<if test="modifyBy != null">modifyBy=#{modifyBy},</if>
+			<if test="modifyDate != null">modifyDate=#{modifyDate},</if>
+			<if test="userRole != null">userRole=#{userRole},</if>
+		</set>
+		where id=#{id}
+	</update>
+	<!-- 删除用户信息 -->
+	<delete id="delUser" parameterType="Integer">
+		DELETE FROM smbms_user where id=#{id}
+	</delete>
+	<!-- 添加用户信息 -->
+	<insert id="addUser" parameterType="User">
+		insert into smbms_user(userCode,userName,userPassword,gender,birthday,phone,
+   		address,userType,createdBy,creationDate,modifyBy,modifyDate,userRole)
+   		value(#{userCode},#{userName},#{userPassword},#{gender},
+   		#{birthday},#{phone},#{address},#{userType},#{createdBy},#{creationDate},
+   		<if test="modifyBy != null">#{modifyBy},</if>
+   		<if test="modifyDate != null">#{modifyDate},</if>
+   		#{userRole})
+	</insert>
+	
+	<!-- 两表查询 -->
+	<select id="getUserByRole" resultMap="userResult">
+		SELECT su.*,sr.* from smbms_user su
+			INNER JOIN smbms_role sr on su.userRole =sr.id
+	</select>
+	<!-- 一对多的结果映射 -->
+	<resultMap type="User" id="addressMap">
+		<id property="id" column="id"/>
+		<result property="userCode" column="userCode"/>
+		<result property="userName" column="userName"/>
+		<result property="userPassword" column="userPassword"/>
+		<result property="gender" column="gender"/>
+		<result property="birthday" column="birthday"/>
+		<result property="phone" column="phone"/>
+		<result property="address" column="address"/>
+		<result property="userType" column="userType"/>
+		<result property="createdBy" column="createdBy"/>
+		<result property="creationDate" column="creationDate"/>
+		<result property="modifyBy" column="modifyBy"/>
+		<result property="modifyDate" column="modifyDate"/>
+		<result property="userRole" column="userRole"/>
+		<collection property="addressList" ofType="Address" resultMap="addResult"></collection>
+	</resultMap>
+	
+	<resultMap type="Address" id="addResult">
+		<result property="contact" column="contact"/>
+		<result property="addressDesc" column="addressDesc"/>
+		<result property="postCode" column="postCode"/>
+		<result property="tel" column="tel"/>
+		<result property="createdBy" column="createdBy"/>
+		<result property="creationDate" column="creationDate"/>
+		<result property="modifyBy" column="modifyBy"/>
+		<result property="modifyDate" column="modifyDate"/>
+		<result property="userId" column="userId"/>
+	</resultMap>
+	<select id="getAddressListById" resultMap="addressMap">
+			SELECT su.*,sa.* from smbms_user su
+			INNER JOIN smbms_address sa on sa.userId =su.id
+	 <where>
+	 	<if test="id != null">su.id=#{id}</if>
+	 </where>
+	</select>
+	
+	<!-- 用户名修改 -->
+	<update id="updateUserByName" parameterType="User">
+		update smbms_user
+		<set>
+			<if test="userName != null">userName =#{userName},</if>
+		</set>
+		where id=#{id}
+	</update>
+
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- 通过这个配置文件完成mybatis与数据库的连接 -->
+<configuration>
+	<!-- 引入database.properties文件 -->
+	<properties resource="database.properties"/>
+
+	<!-- 实体类，简称-设置别名 -->
+	<typeAliases>
+		<!--  <typeAlias alias="Bill" type="com.smbms.pojo.Bill" />
+		<typeAlias alias="Provider" type="com.smbms.pojo.Provider" />-->
+		<package name="com.demo.pojo"/>
+	</typeAliases>
+	
+	
+	
+	<environments default="development">
+		<environment id="development">
+			<!-- 配置事务管理，采用JDBC的事务管理 -->
+			<transactionManager type="JDBC"></transactionManager>
+			<!-- POOLED:mybatis自带数据源，JNID：基于tomcat数据源 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}"/>
+				<property name="url" value="${url}"/>
+				<property name="username" value="${user}"/>
+				<property name="password" value="${password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- 将Mapper文件加入到配置文件中 -->
+	<mappers>
+		<mapper resource="com/demo/dao/AddressMapper.xml"/>
+		<mapper resource="com/demo/dao/UserMapper.xml"/>
+		<mapper resource="com/demo/dao/RoleMapper.xml"/>
+	</mappers>
+</configuration>
