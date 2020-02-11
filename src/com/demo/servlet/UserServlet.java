@@ -46,11 +46,12 @@ public class UserServlet extends AbstractServlet {
 		doPost(request, response);
 		
 	}
-	//¼ÓÔØÁĞ±íĞÅÏ¢
+	//åŠ è½½åˆ—è¡¨ä¿¡æ¯
 	public String getUser(HttpServletRequest request, HttpServletResponse response) {
 		SqlSession session=null;
 		try {
-			System.out.println("ĞŞ¸Ä");
+			System.out.println("æå››ä¿®æ”¹");
+			System.out.println("ä¿®æ”¹");
 			List<User> list=new ArrayList<User>();
 			session=MyBatisUtil.createSqlSession();
 			list=session.getMapper(UserMapper.class).getUser();
@@ -63,7 +64,7 @@ public class UserServlet extends AbstractServlet {
 		}
 		return "/index";
 	}
-	//¸ù¾İid²éÑ¯ÓÃ»§Êı¾İ
+	//æ ¹æ®idæŸ¥è¯¢ç”¨æˆ·æ•°æ®
 	public String getUserById(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		SqlSession session=null;
@@ -81,7 +82,7 @@ public class UserServlet extends AbstractServlet {
 		}
 		return "/updateUser";
 	}
-	//ĞŞ¸ÄÓÃ»§ĞÅÏ¢
+	//ä¿®æ”¹ç”¨æˆ·ä¿¡æ¯
 	public void updateUser(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		SqlSession session=null;
@@ -109,9 +110,9 @@ public class UserServlet extends AbstractServlet {
 			int result=session.getMapper(UserMapper.class).updateUser(user);
 			session.commit();
 			if (result==1) {
-				out.print("<script>alert('ĞÅÏ¢ĞŞ¸Ä³É¹¦');location.href='UserServlet?action=getUser'</script>");
+				out.print("<script>alert('ä¿¡æ¯ä¿®æ”¹æˆåŠŸ');location.href='UserServlet?action=getUser'</script>");
 			}else {
-				out.print("<script>alert('ĞÅÏ¢ĞŞ¸ÄÊ§°Ü');location.href='updateUser.jsp'</script>");
+				out.print("<script>alert('ä¿¡æ¯ä¿®æ”¹å¤±è´¥');location.href='updateUser.jsp'</script>");
 			}
 			
 		} catch (Exception e) {
@@ -121,7 +122,7 @@ public class UserServlet extends AbstractServlet {
 			MyBatisUtil.closeSqlSession(session);
 		}
 	}
-	//É¾³ıĞÅÏ¢
+	//åˆ é™¤ä¿¡æ¯
 	public ReturnResult  delUser(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		ReturnResult rr=new ReturnResult();
@@ -131,9 +132,9 @@ public class UserServlet extends AbstractServlet {
 			int id=Integer.parseInt(request.getParameter("id"));
 			int res=session.getMapper(UserMapper.class).delUser(id);
 			if (res==1) {
-				rr.returnSuccess("É¾³ı³É¹¦");
+				rr.returnSuccess("åˆ é™¤æˆåŠŸ");
 			}else {
-				rr.returnFail("É¾³ıÊ§°Ü");
+				rr.returnFail("åˆ é™¤å¤±è´¥");
 			}
 			session.commit();
 			
@@ -145,7 +146,7 @@ public class UserServlet extends AbstractServlet {
 		}
 		return rr;
 	}
-	//Ìí¼ÓÓÃ»§ĞÅÏ¢
+	//æ·»åŠ ç”¨æˆ·ä¿¡æ¯
 	public void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/html;charset=utf-8");
@@ -171,9 +172,9 @@ public class UserServlet extends AbstractServlet {
 			int result=session.getMapper(UserMapper.class).addUser(user);
 			session.commit();
 			if (result==1) {
-				out.print("<script>alert('ĞÅÏ¢Ìí¼Ó³É¹¦');location.href='UserServlet?action=getUser'</script>");
+				out.print("<script>alert('ä¿¡æ¯æ·»åŠ æˆåŠŸ');location.href='UserServlet?action=getUser'</script>");
 			}else {
-				out.print("<script>alert('ĞÅÏ¢Ìí¼ÓÊ§°Ü');location.href='addUser.jsp'</script>");
+				out.print("<script>alert('ä¿¡æ¯æ·»åŠ å¤±è´¥');location.href='addUser.jsp'</script>");
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -183,7 +184,7 @@ public class UserServlet extends AbstractServlet {
 		}
 	}
 	/*
-	 * ²éÑ¯RoleºÍUserÁ½±íµÄÊı¾İ id²»Õ¹Ê¾
+	 * æŸ¥è¯¢Roleå’ŒUserä¸¤è¡¨çš„æ•°æ® idä¸å±•ç¤º
 	 */
 	public String getUserByRole(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -201,7 +202,7 @@ public class UserServlet extends AbstractServlet {
 		return "/addUserByRole";
 	}
 	/*
-	 * Ò»¶Ô¶à
+	 * ä¸€å¯¹å¤š
 	 */
 	public String getAddressListById(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -227,7 +228,7 @@ public class UserServlet extends AbstractServlet {
 		return "/userByAddress";
 	}
 	/*
-	 * ÓÃ»§ÃûĞŞ¸Ä
+	 * ç”¨æˆ·åä¿®æ”¹
 	 */
 	public void updateUserByName(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -243,9 +244,9 @@ public class UserServlet extends AbstractServlet {
 			int result=session.getMapper(UserMapper.class).updateUserByName(name,id);
 			session.commit();
 			if (result==1) {
-				out.print("<script>alert('ÓÃ»§ÃûĞŞ¸Ä³É¹¦');location.href='UserServlet?action=getUser'</script>");
+				out.print("<script>alert('ç”¨æˆ·åä¿®æ”¹æˆåŠŸ');location.href='UserServlet?action=getUser'</script>");
 			}else {
-				out.print("<script>alert('ÓÃ»§ÃûĞŞ¸ÄÊ§°Ü');location.href='updateUserByName.jsp'</script>");
+				out.print("<script>alert('ç”¨æˆ·åä¿®æ”¹å¤±è´¥');location.href='updateUserByName.jsp'</script>");
 			}
 			
 		} catch (Exception e) {
@@ -255,7 +256,7 @@ public class UserServlet extends AbstractServlet {
 			MyBatisUtil.closeSqlSession(session);
 		}
 	}
-	//¸ù¾İid²éÑ¯ÓÃ»§Êı¾İ
+	//æ ¹æ®idæŸ¥è¯¢ç”¨æˆ·æ•°æ®
 		public String getUserByIds(HttpServletRequest request, HttpServletResponse response)
 				throws ServletException, IOException {
 			SqlSession session=null;
